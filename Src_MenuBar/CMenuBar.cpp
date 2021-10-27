@@ -42,6 +42,11 @@ CMenuBar::CMenuBar(QWidget *parent) :
 
     this->m_nMaxTabPagesIndx -= 1;
 
+    ui->tab_page02_edit->setHidden(true);
+    ui->tab_page03_tool->setHidden(true);
+    this->ui->tab_Tools->removeTab(3);
+    this->ui->tab_Tools->removeTab(2);
+
     this->ui->tab_Tools->setCurrentIndex(0);
 }
 
@@ -100,7 +105,7 @@ void CMenuBar::InitTabPage01_Start() {
     this->initToolBar(this->ui->PixTxt_Lab_MovePoint,       (this->m_sExeDir + "/Res/ImgMenuBar/move_point_01.png").c_str(), (u8"卷帘"));//QString::fromLocal8Bit("移动点"));
 
     this->initToolBar(this->ui->PixTxt_Lab_ResidualInfo,        (this->m_sExeDir + "/Res/ImgMenuBar/select_01.png").c_str(), u8"残差");
-    this->initToolBar(this->ui->PixTxt_Lab_Residual_DelPoints,  (this->m_sExeDir + "/Res/ImgMenuBar/select_01.png").c_str(), u8"阈值");
+    this->initToolBar(this->ui->PixTxt_Lab_Residual_DelPoints,  (this->m_sExeDir + "/Res/ImgMenuBar/select_01.png").c_str(), u8"过滤");
     this->initToolBar(this->ui->PixTxt_Lab_Residual_SaveFile,   (this->m_sExeDir + "/Res/ImgMenuBar/select_01.png").c_str(), u8"保存");
 
     int i = 0, j = 0;
@@ -128,6 +133,11 @@ void CMenuBar::InitTabPage01_Start() {
     connect(this->ui->PixTxt_Lab_ResidualInfo, &CPicTextLabel::clicked, this->m_pToolMenuHandler, &CToolMenuHandler::Clicked_Lab_ResidualInfo);
     connect(this->ui->PixTxt_Lab_Residual_DelPoints, &CPicTextLabel::clicked, this->m_pToolMenuHandler, &CToolMenuHandler::Clicked_Lab_Residual_DelPoints);
     connect(this->ui->PixTxt_Lab_Residual_SaveFile, &CPicTextLabel::clicked, this->m_pToolMenuHandler, &CToolMenuHandler::Clicked_Lab_Residual_SaveFile);
+
+    this->ui->PixTxt_Lab_Grab->hide();
+    this->ui->PixTxt_Lab_MovePoint->hide();
+    this->ui->comb_Scale->hide();
+    this->ui->label_Comb_Scale->hide();
 }
 
 void CMenuBar::InitTabPage02_Edit(){

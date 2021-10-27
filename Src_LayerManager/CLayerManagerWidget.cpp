@@ -330,6 +330,8 @@ void CLayerManagerWidget::Clicked_AddResidualFile_Slot(){
             );
         sVectorFile = sQVectorFile.toLocal8Bit().data();
     }
+    if(sVectorFile == "")
+        return;
     if(0 == CMisc::CheckFileExists(sVectorFile.c_str())){
         QMessageBox::information(this, u8"友情提示", sQVectorFile+u8":文件不存在！");
         return;

@@ -510,7 +510,7 @@ QComboBox::hover{
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="label">
+            <widget class="QLabel" name="label_Comb_Scale">
              <property name="styleSheet">
               <string notr="true"/>
              </property>
@@ -628,15 +628,33 @@ QComboBox::hover{
           </widget>
          </item>
          <item>
-          <widget class="QLineEdit" name="lineEdit_Residual_Threshold">
-           <property name="maximumSize">
-            <size>
-             <width>123</width>
-             <height>16777215</height>
-            </size>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <property name="spacing">
+            <number>0</number>
            </property>
-           <property name="styleSheet">
-            <string notr="true">QLineEdit {
+           <item>
+            <spacer name="verticalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="lineEdit_Residual_Threshold">
+             <property name="maximumSize">
+              <size>
+               <width>123</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QLineEdit {
     /* 边框宽度,线条样式,颜色 */
     border:1px solid gray;
 
@@ -677,8 +695,42 @@ QLineEdit::hover{
 	color:black;
 	background-color: rgb(235, 235, 235);
 }</string>
-           </property>
-          </widget>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_Residual_Threshold">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="lineWidth">
+              <number>0</number>
+             </property>
+             <property name="text">
+              <string>阈值</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
          </item>
          <item>
           <spacer name="horizontalSpacer">
@@ -687,7 +739,7 @@ QLineEdit::hover{
            </property>
            <property name="sizeHint" stdset="0">
             <size>
-             <width>233</width>
+             <width>40</width>
              <height>20</height>
             </size>
            </property>
