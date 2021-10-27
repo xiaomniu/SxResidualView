@@ -1,0 +1,1140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>CMenuBar</class>
+ <widget class="QWidget" name="CMenuBar">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>998</width>
+    <height>123</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout_9">
+   <item>
+    <widget class="QPushButton" name="btn_Show_Hide">
+     <property name="minimumSize">
+      <size>
+       <width>22</width>
+       <height>22</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>22</width>
+       <height>22</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">#btn_Show_Hide{
+	min-width:20px;
+	max-width:20px;
+	min-height:20px;
+	max-height:20px;
+}
+#btn_Show_Hide{
+	color:black;
+	border: 1px solid rgb(209, 238, 245);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, 
+		stop:0 rgb(209, 238, 245), stop:0.5 rgb(209, 238, 245),stop:0.51 rgb(209, 238, 245), stop:1 rgb(209, 238, 245));
+}
+#btn_Show_Hide::hover{
+	color:white;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, 
+		stop:0 #7BB2AA, stop:0.5 #477ECD,stop:0.51 #114EAA, stop:1 #80E1FF);
+}
+#btn_Show_Hide::pressed{
+	color:white;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1, 
+		stop:0 #467B88, stop:0.5 #2F63AE,stop:0.51 #1C43AA, stop:1 #358BC9);
+}</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QTabWidget" name="tab_Tools">
+     <property name="styleSheet">
+      <string notr="true">#tab_Tools QTabBar::tab{
+	min-width:60px;
+	max-width:60px;
+	min-height:20px;
+	max-height:20px;
+}
+#tab_Tools QTabBar::tab {
+	background: transparent;
+	margin-left: 3px;
+	margin-right: 3px;
+}
+#tab_Tools QTabBar::tab:selected, QTabBar::tab:hover {
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+#tab_Tools::tab-bar {
+ 	border: 1px solid #BAC9DB;
+}
+#tab_Tools QTabBar::tab:selected{
+	border: 1px solid #BAC9DB;
+	background: white;
+    border-bottom-color: #FFFFFF;
+}
+#tab_Tools QTabBar::tab:hover:!selected{
+	border: 1px solid #ECBC3D;
+}
+#tab_Tools QTabBar::tab:!selected {
+    margin-top: 1px; 
+}
+#tab_Tools QGroupBox{
+	border-left: 1px solid gray;
+	border-top: 1px solid gray;
+}
+ 
+#tab_Tools QGroupBox::title {
+	color: #738399;
+    subcontrol-position: bottom center; 
+}</string>
+     </property>
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
+     <widget class="QWidget" name="tab_page00_file">
+      <attribute name="title">
+       <string>  文件</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_8">
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <property name="leftMargin">
+        <number>2</number>
+       </property>
+       <property name="topMargin">
+        <number>2</number>
+       </property>
+       <property name="rightMargin">
+        <number>2</number>
+       </property>
+       <property name="bottomMargin">
+        <number>2</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_NewFile" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_OpenFile" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_SaveFile" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_SaveFileAs" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_PrintFile" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_HelpOption" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_ExitExe" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_page01_start">
+      <attribute name="title">
+       <string>常规</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_5">
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <property name="leftMargin">
+        <number>2</number>
+       </property>
+       <property name="topMargin">
+        <number>2</number>
+       </property>
+       <property name="rightMargin">
+        <number>2</number>
+       </property>
+       <property name="bottomMargin">
+        <number>2</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <property name="spacing">
+          <number>3</number>
+         </property>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_Select" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_Grab" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_Del_GroundPoint" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_MovePoint" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <item>
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QComboBox" name="comb_Scale">
+             <property name="minimumSize">
+              <size>
+               <width>123</width>
+               <height>26</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">QComboBox {
+    /* 边框宽度,线条样式,颜色 */
+    border:1px solid gray;
+
+    /* 倒角 */
+    border-radius:2px;
+
+    /* 内边框 */
+    padding:1px 28px 1px 3px;
+
+    min-width:90px;
+    min-height:22px;
+}
+
+QComboBox:editable {
+    background:green;
+}
+
+/* 渐变色:从左到右,黑白渐变 */
+/*QComboBox:!editable,QComboBox::drop-down:editable { */
+/*    background:qlineargradient(x1:0, y1:0, x2:1, y2:0, */
+/*                               stop:0 rgb(0,0,0), stop:1 rgb(255,255,255)); */
+/*} */
+
+/* 当下拉框打开时,背景颜色渐变 */
+/*QComboBox:!editable:on, QComboBox::drop-down:editable:on { */
+/*    background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, */
+/*                                stop: 0 #D3D3D3, stop: 0.4 #D8D8D8, */
+/*                                stop: 0.5 #DDDDDD, stop: 1.0 #BBBBBB); */
+/*} */
+
+/* 当下拉框打开时, 移动显示框文本位置*/
+QComboBox:on {
+    padding-top: 3px;
+    padding-left: 4px;
+}
+
+
+/* 下拉按钮 */
+QComboBox::drop-down {
+
+    /* 按钮位置,右上角 */
+    subcontrol-position: top right;
+
+    /* 按钮宽度 */
+    width: 15px;
+
+    /* 一条边框线控制 */
+    border-left-width: 1px;
+    border-left-color: gray;
+    border-left-style: solid;
+
+    /* 倒角 */
+    border-top-right-radius: 3px;
+    border-bottom-right-radius: 3px;
+}
+
+/* 下拉按钮图片 */
+QComboBox::down-arrow {
+    border-image: url(D:/QT_CODE_PRJ/SuperXView02/Res/ImgMenuBar/scale_01.png);
+}
+
+/* 下拉列表里的颜色 */
+QComboBox QAbstractItemView {
+    border: 2px solid darkgray;
+    selection-background-color: green;
+}
+QComboBox::hover{
+	color:black;
+	background-color: rgb(235, 235, 235);
+}</string>
+             </property>
+             <property name="currentText">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="label">
+             <property name="styleSheet">
+              <string notr="true"/>
+             </property>
+             <property name="frameShape">
+              <enum>QFrame::NoFrame</enum>
+             </property>
+             <property name="lineWidth">
+              <number>0</number>
+             </property>
+             <property name="text">
+              <string> 缩放</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_Chunk_Property" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>80</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>80</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_ResidualInfo" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_Residual_SaveFile" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_Residual_DelPoints" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEdit_Residual_Threshold">
+           <property name="maximumSize">
+            <size>
+             <width>123</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+    /* 边框宽度,线条样式,颜色 */
+    border:1px solid gray;
+
+    /* 倒角 */
+    border-radius:2px;
+
+    /* 内边框 */
+    padding:1px 28px 1px 3px;
+
+    min-width:90px;
+    min-height:22px;
+}
+
+QLineEdit:editable {
+    background:green;
+}
+
+/* 渐变色:从左到右,黑白渐变 */
+/*QComboBox:!editable,QComboBox::drop-down:editable { */
+/*    background:qlineargradient(x1:0, y1:0, x2:1, y2:0, */
+/*                               stop:0 rgb(0,0,0), stop:1 rgb(255,255,255)); */
+/*} */
+
+/* 当下拉框打开时,背景颜色渐变 */
+/*QComboBox:!editable:on, QComboBox::drop-down:editable:on { */
+/*    background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, */
+/*                                stop: 0 #D3D3D3, stop: 0.4 #D8D8D8, */
+/*                                stop: 0.5 #DDDDDD, stop: 1.0 #BBBBBB); */
+/*} */
+
+/* 当下拉框打开时, 移动显示框文本位置*/
+QLineEdit:on {
+    padding-top: 3px;
+    padding-left: 4px;
+}
+
+QLineEdit::hover{
+	color:black;
+	background-color: rgb(235, 235, 235);
+}</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>233</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tab_page02_edit">
+      <attribute name="title">
+       <string> 编辑</string>
+      </attribute>
+      <widget class="QPushButton" name="btn_Select_MapFile">
+       <property name="geometry">
+        <rect>
+         <x>360</x>
+         <y>40</y>
+         <width>101</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>PushButton</string>
+       </property>
+      </widget>
+      <widget class="QWidget" name="layoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>0</y>
+         <width>135</width>
+         <height>77</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QLineEdit" name="lineEdit_Pt1_X"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_Pt1_Y"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_Select_Pt1">
+          <property name="text">
+           <string>SelectPt1</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="layoutWidget_2">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>0</y>
+         <width>135</width>
+         <height>77</height>
+        </rect>
+       </property>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QLineEdit" name="lineEdit_Pt2_X"/>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_Pt2_Y"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="btn_Select_Pt2">
+          <property name="text">
+           <string>SelectPt2</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_MapFile">
+       <property name="geometry">
+        <rect>
+         <x>290</x>
+         <y>10</y>
+         <width>241</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="bnt_FindPath">
+       <property name="geometry">
+        <rect>
+         <x>460</x>
+         <y>40</y>
+         <width>75</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>StartFind</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_SelectPointSwitch">
+       <property name="geometry">
+        <rect>
+         <x>300</x>
+         <y>40</y>
+         <width>51</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Switch</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_TestFilterPoint">
+       <property name="geometry">
+        <rect>
+         <x>560</x>
+         <y>40</y>
+         <width>111</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>TestFilterPoint</string>
+       </property>
+      </widget>
+      <widget class="QLineEdit" name="lineEdit_TestFilterPoint">
+       <property name="geometry">
+        <rect>
+         <x>550</x>
+         <y>10</y>
+         <width>133</width>
+         <height>20</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QWidget" name="tab_page03_tool">
+      <attribute name="title">
+       <string>工具</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_7">
+       <property name="spacing">
+        <number>2</number>
+       </property>
+       <property name="leftMargin">
+        <number>2</number>
+       </property>
+       <property name="topMargin">
+        <number>2</number>
+       </property>
+       <property name="rightMargin">
+        <number>2</number>
+       </property>
+       <property name="bottomMargin">
+        <number>2</number>
+       </property>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_2">
+           <item>
+            <spacer name="verticalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_4">
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLineEdit" name="lineEdit_DemImgFullPath">
+               <property name="minimumSize">
+                <size>
+                 <width>123</width>
+                 <height>26</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>250</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QLineEdit {
+    /* 边框宽度,线条样式,颜色 */
+    border:1px solid gray;
+
+    /* 倒角 */
+    border-radius:2px;
+
+    /* 内边框 */
+    padding:1px 28px 1px 3px;
+
+    min-width:90px;
+    min-height:22px;
+}
+
+QLineEdit:editable {
+    background:green;
+}
+
+/* 渐变色:从左到右,黑白渐变 */
+/*QComboBox:!editable,QComboBox::drop-down:editable { */
+/*    background:qlineargradient(x1:0, y1:0, x2:1, y2:0, */
+/*                               stop:0 rgb(0,0,0), stop:1 rgb(255,255,255)); */
+/*} */
+
+/* 当下拉框打开时,背景颜色渐变 */
+/*QComboBox:!editable:on, QComboBox::drop-down:editable:on { */
+/*    background: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0, */
+/*                                stop: 0 #D3D3D3, stop: 0.4 #D8D8D8, */
+/*                                stop: 0.5 #DDDDDD, stop: 1.0 #BBBBBB); */
+/*} */
+
+/* 当下拉框打开时, 移动显示框文本位置*/
+QLineEdit:on {
+    padding-top: 3px;
+    padding-left: 4px;
+}
+
+QLineEdit::hover{
+	color:black;
+	background-color: rgb(235, 235, 235);
+}</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="btn_DemImgFullPath">
+               <property name="minimumSize">
+                <size>
+                 <width>18</width>
+                 <height>28</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>26</width>
+                 <height>16777215</height>
+                </size>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QPushButton {  
+    /* 前景色 */  
+    color:red;  
+
+    /* 背景色 */  
+    /*background-color:rgb(30,75,10);  
+
+    /* 边框风格 */  
+    border-style:outset;  
+
+    /* 边框宽度 */  
+    border-width:2px;  
+
+    /* 边框颜色 */  
+    /*border-color:rgb(10,45,110);  
+
+    /* 边框倒角 */  
+    border-radius:2px;  
+
+    /* 字体 */  
+    font:bold 14px;  
+
+    /* 控件最小宽度 */  
+    min-width:10px;  
+
+    /* 控件最小高度 */  
+    min-height:20px;  
+
+    /* 内边距 */  
+    padding:2px;  
+}  
+
+/* 鼠标按下时的效果 */  
+QPushButton#pushButton:pressed {  
+    /* 改变背景色 */  
+    background-color:rgb(40,85,20);  
+
+    /* 改变边框风格 */  
+    border-style:inset;  
+
+    /* 使文字有一点移动 */  
+    padding-left:6px;  
+    padding-top:6px;  
+}  
+
+/* 按钮样式 */  
+/*QPushButton:flat {  
+/*    border:2px solid red;  
+/*}  
+
+/* 当按钮打开菜单时:ui-&gt;pushButton-&gt;setMenu(btnMenu) */  
+QPushButton:open{  
+    background-color:qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,stop: 0 #dadbde, stop: 1 #f6f7fa);  
+}  
+
+/* 子选择器:菜单 */  
+QPushButton::menu-indicator {  
+    image:url(:/images/close.png);  
+
+    /* 去掉小三角号   
+    image:none;*/  
+
+    /* 绘制subcontrol 的参考矩形的位置 */  
+    subcontrol-origin:padding;  
+
+    /* 小三角的位置 */  
+    subcontrol-position:bottom right;  
+}  
+
+QPushButton::menu-indicator:pressed,QPushButton::menu-indicator:open {  
+    position:relative;  
+    top:4px;  
+    left:4px;  
+} 
+
+QPushButton::hover{
+	color:black;
+	background-color: rgb(235, 235, 235);
+}</string>
+               </property>
+               <property name="text">
+                <string>...</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QLabel" name="label_2">
+             <property name="minimumSize">
+              <size>
+               <width>150</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>250</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Dem 参考图</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="verticalSpacer_4">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="CPicTextLabel" name="PixTxt_Lab_3DView" native="true">
+           <property name="minimumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>50</width>
+             <height>70</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <family>苹方 中等</family>
+            </font>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_6">
+           <property name="text">
+            <string>PushButton</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_5">
+           <property name="text">
+            <string>PushButton</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="text">
+            <string>PushButton</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_2">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CPicTextLabel</class>
+   <extends>QWidget</extends>
+   <header>Src_MenuBar/CPicTextLabel.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
