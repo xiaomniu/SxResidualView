@@ -188,26 +188,30 @@ int CResidualInfo::LoadResidualFile(const std::string& sResidualFileFullPath) {
     sTifFileInfoFullPath = sTifFileInfoFullPath + "_TifInfo.txt";
     fReadFile.open(sTifFileInfoFullPath.c_str(), std::ios::in);
     CRpcAdjustFactor* pRpcAdjustFactor = nullptr;
+    int nParseTifIndx = 0;
     while (std::getline(fReadFile, sReadLine)) {
         if(sReadLine == "")
             continue;
         if( 0 == CMisc::CheckFileExists(sReadLine.c_str())){
             continue;
         }
+        sTifFileFullPath = sReadLine;
+
         sTifName = sReadLine;
         sTifName = sTifName.substr(sTifName.rfind('/') + 1);
         sTifName = sTifName.substr(0, sTifName.rfind('.'));
 
-        sTifFileFullPath = sReadLine;
-
         sRpcFileFullPath = sReadLine;
         sRpcFileFullPath = sRpcFileFullPath.substr(0, sRpcFileFullPath.rfind('.'))+"_rpc.txt";
+        //sRpcFileFullPath = sRpcFileFullPath.substr(0, sRpcFileFullPath.rfind('/'))+"_result"+sRpcFileFullPath.substr(sRpcFileFullPath.rfind('/'));
 
         sPxyFileFullPath = sReadLine;
         sPxyFileFullPath = sPxyFileFullPath.substr(0, sPxyFileFullPath.rfind('.'))+".pxy";
+        sPxyFileFullPath = sPxyFileFullPath.substr(0, sPxyFileFullPath.rfind('/'))+"_result"+sPxyFileFullPath.substr(sPxyFileFullPath.rfind('/'));
 
         sGcpFileFullPath = sReadLine;
         sGcpFileFullPath = sGcpFileFullPath.substr(0, sGcpFileFullPath.rfind('.'))+".gcp";
+        sGcpFileFullPath = sGcpFileFullPath.substr(0, sGcpFileFullPath.rfind('/'))+"_result"+sGcpFileFullPath.substr(sGcpFileFullPath.rfind('/'));
 
         CReadRaster readTif(sTifFileFullPath);
         pRpcAdjustFactor = new CRpcAdjustFactor;
@@ -230,8 +234,12 @@ int CResidualInfo::LoadResidualFile(const std::string& sResidualFileFullPath) {
             std::pair<std::string, CRpcAdjustFactor*>(sTifFileFullPath, pRpcAdjustFactor));
         this->m_RpcAdjustFactorBlock.m_mapRpcAdjustFactorName2VecIndx.insert(
             std::pair<std::string, CRpcAdjustFactor*>(sTifName, pRpcAdjustFactor));
+        nParseTifIndx++;
+        if(nParseTifIndx % 200 == 0)
+            printf("初始化... 解析 影像 [%d] %s\n", nParseTifIndx, sTifName.c_str());
     }
     fReadFile.close();
+    printf("初始化完成 一共解析影像[%d] 个\n", nParseTifIndx);
     //////////////////////////////////////////////////////////////////////////////////
 
     fReadFile.open(sResidualFileFullPath, std::ios::in);
@@ -283,7 +291,7 @@ int CResidualInfo::LoadResidualFile(const std::string& sResidualFileFullPath) {
                 if (sReadLine == "")
                     break;
                 nVecSplitCnt = this->SplitString(vecSplitStr, sReadLine, " ", 1);
-                if (nVecSplitCnt < 10) {
+                if (nVecSplitCnt < 5) {
                     printf("[ERROR] : nLineCnt:%d %s,  vecSplitStr.size = %d\n", nFileReadLineCount, sReadLine.c_str(), nVecSplitCnt);
                     continue;
                 }
@@ -295,14 +303,9 @@ int CResidualInfo::LoadResidualFile(const std::string& sResidualFileFullPath) {
                 pLianJieDianZuoBiao->m_nDianHao = strtoull(pLianJieDianZuoBiao->m_sDianHao.c_str(), 0, 10);
 
                 pLianJieDianZuoBiao->m_fLng = atof(vecSplitStr[nItem++].c_str());
-                pLianJieDianZuoBiao->m_fLngDu = atof(vecSplitStr[nItem++].c_str());
-                pLianJieDianZuoBiao->m_fLngFen = atof(vecSplitStr[nItem++].c_str());
-                pLianJieDianZuoBiao->m_fLngMiao = atof(vecSplitStr[nItem++].c_str());
                 pLianJieDianZuoBiao->m_fLat = atof(vecSplitStr[nItem++].c_str());
-                pLianJieDianZuoBiao->m_fLatDu = atof(vecSplitStr[nItem++].c_str());
-                pLianJieDianZuoBiao->m_fLatFen = atof(vecSplitStr[nItem++].c_str());
-                pLianJieDianZuoBiao->m_fLatMiao = atof(vecSplitStr[nItem++].c_str());
                 pLianJieDianZuoBiao->m_fHeight = atof(vecSplitStr[nItem++].c_str());
+                pLianJieDianZuoBiao->m_fAngle = atof(vecSplitStr[nItem++].c_str());
 
                 this->m_LianJieDianZuoBiaoBlock.m_vecLianJieDianZuoBiao.push_back(pLianJieDianZuoBiao);
                 this->m_LianJieDianZuoBiaoBlock.m_mapLianJieDianZuoBiao2VecIndx.insert(
@@ -443,6 +446,9 @@ int CResidualInfo::LoadResidualFile(const std::string& sResidualFileFullPath) {
                 pControlDianPrecision->m_fResidual_Plane = atof(vecSplitStr[nItem++].c_str());
                 pControlDianPrecision->m_fResidual_Height = atof(vecSplitStr[nItem++].c_str());
                 pControlDianPrecision->m_fAngle = atof(vecSplitStr[nItem++].c_str());
+
+                pControlDianPrecision->m_fAdjLng = pControlDianPrecision->m_fLng - (pControlDianPrecision->m_fResidual_X / 100.0);
+                pControlDianPrecision->m_fAdjLat = pControlDianPrecision->m_fLat - (pControlDianPrecision->m_fResidual_Y / 100.0);
 
                 this->m_ControlDianPrecisionBlock.m_vecControlDianPrecision.push_back(pControlDianPrecision);
                 this->m_ControlDianPrecisionBlock.m_mapControlDianPrecision2VecIndx.insert(
@@ -592,6 +598,9 @@ int CResidualInfo::LoadResidualFile(const std::string& sResidualFileFullPath) {
                 pCheckDianPrecision->m_fResidual_Plane = atof(vecSplitStr[nItem++].c_str());
                 pCheckDianPrecision->m_fResidual_Height = atof(vecSplitStr[nItem++].c_str());
                 pCheckDianPrecision->m_fAngle = atof(vecSplitStr[nItem++].c_str());
+
+                pCheckDianPrecision->m_fAdjLng = pCheckDianPrecision->m_fLng - (pCheckDianPrecision->m_fResidual_X / 100.0);
+                pCheckDianPrecision->m_fAdjLat = pCheckDianPrecision->m_fLat - (pCheckDianPrecision->m_fResidual_Y / 100.0);
 
                 this->m_CheckDianPrecisionBlock.m_vecCheckDianPrecision.push_back(pCheckDianPrecision);
 

@@ -1,5 +1,5 @@
-﻿#ifndef SXLAYERGEODRAW_H
-#define SXLAYERGEODRAW_H
+﻿#ifndef CLAYERGEODRAW_H
+#define CLAYERGEODRAW_H
 
 #include <string>
 #include <vector>
@@ -81,6 +81,9 @@ public:
     virtual int RemoveAllChunks(bool bNeedDelete);
     virtual int UninitBody();
 
+    virtual int AddChunk(int nPointCount, double* pPoints){
+        return 1;
+    }
     virtual int AddChunk(CChunk* pChunk){
         this->m_vecChunkDatas.push_back(pChunk);
         return 1;
@@ -102,6 +105,21 @@ public:
     virtual void ReCalcChunkBound(CChunk* pChunk);
     virtual void ReCalcLayerBoundByChunks(int nChunkIdx = -1);
 
+    virtual CChunk* GetSelectChunk(){
+        if(this->m_pVecEleChunksOperate->size() <= 0){
+            return nullptr;
+        }
+        int nselectIndx = this->m_pVecEleChunksOperate->at(0);
+        return this->m_vecChunkDatas[nselectIndx];
+    }
+    virtual CChunk* GetChunkByIndex(int nChunkIndex){
+        int nChunkCount = (int)this->m_vecChunkDatas.size();
+        if(nChunkCount <= 0 || nChunkIndex < 0 || nChunkIndex >= nChunkCount){
+            return nullptr;
+        }
+        return this->m_vecChunkDatas[nChunkIndex];
+    }
+
 
     int IsContainsByPoint(double* pSrcRect, double* pDstPoint);
     int IsContains(double* pSrcRect, double* pDstRect);
@@ -120,4 +138,4 @@ public:
     void DrawTest();
 };
 
-#endif // SXLAYERGEODRAW_H
+#endif // CLAYERGEODRAW_H

@@ -38,6 +38,7 @@ SOURCES += \
         SOIL2/wfETC.cpp \
         Src_Attribute/CChunkAttribute.cpp \
         Src_Attribute/CLayerAttribute.cpp \
+        Src_Core/CGeoMath.cpp \
         Src_Core/CGeoRelation.cpp \
         Src_Core/CGlobal.cpp \
         Src_Core/CThreadPool.cpp \
@@ -50,6 +51,7 @@ SOURCES += \
         Src_Geometry/CLayerPoints.cpp \
         Src_Geometry/CLayerPolygons.cpp \
         Src_Geometry/CLayerPolygonsEdit.cpp \
+        Src_Geometry/CLayerResidual.cpp \
         Src_Geometry/CLayerVector.cpp \
         Src_Geometry/CRasterDraw.cpp \
         Src_Geometry/CRasterThumbnail.cpp \
@@ -57,7 +59,9 @@ SOURCES += \
         Src_Geometry/CTifAvailBound.cpp \
         Src_GlWnd/CCamera.cpp \
         Src_GlWnd/CMainViewWidget.cpp \
+        Src_GlWnd/CMainViewWidgetSub.cpp \
         Src_GlWnd/COpenGLCore.cpp \
+        Src_GlWnd/COpenGLCoreSub.cpp \
         Src_GlWnd/FontRenderer.cpp \
         Src_LayerManager/CLayerManagerWidget.cpp \
         Src_LayerManager/CTreeWidget.cpp \
@@ -92,6 +96,7 @@ HEADERS += \
         Src_Attribute/CChunkAttribute.h \
         Src_Attribute/CLayerAttribute.h \
         Src_Core/BaseVectorStruct.h \
+        Src_Core/CGeoMath.h \
         Src_Core/CGeoRelation.h \
         Src_Core/CGlobal.h \
         Src_Core/CThreadPool.h \
@@ -105,6 +110,7 @@ HEADERS += \
         Src_Geometry/CLayerPoints.h \
         Src_Geometry/CLayerPolygons.h \
         Src_Geometry/CLayerPolygonsEdit.h \
+        Src_Geometry/CLayerResidual.h \
         Src_Geometry/CLayerVector.h \
         Src_Geometry/CRasterDraw.h \
         Src_Geometry/CRasterThumbnail.h \
@@ -112,7 +118,9 @@ HEADERS += \
         Src_Geometry/CTifAvailBound.h \
         Src_GlWnd/CCamera.h \
         Src_GlWnd/CMainViewWidget.h \
+        Src_GlWnd/CMainViewWidgetSub.h \
         Src_GlWnd/COpenGLCore.h \
+        Src_GlWnd/COpenGLCoreSub.h \
         Src_GlWnd/FontRenderer.h \
         Src_LayerManager/CLayerManagerWidget.h \
         Src_LayerManager/CTreeWidget.h \
@@ -129,6 +137,7 @@ FORMS += \
         Src_Attribute/CChunkAttribute.ui \
         Src_Attribute/CLayerAttribute.ui \
         Src_GlWnd/CMainViewWidget.ui \
+        Src_GlWnd/CMainViewWidgetSub.ui \
         Src_LayerManager/CLayerManagerWidget.ui \
         Src_MenuBar/CMenuBar.ui \
         Src_MenuBar/CPicTextLabel.ui

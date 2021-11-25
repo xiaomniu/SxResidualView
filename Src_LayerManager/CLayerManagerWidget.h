@@ -40,6 +40,8 @@ public:
     QAction* m_pActCtrlSelectLayerColor = nullptr;
     QAction* m_pActCtrlShowLayerAttribute = nullptr;
     QAction* m_pActCtrlDeleteAllChunks = nullptr;
+    QAction* m_pActCtrlShowResidual = nullptr;
+    QAction* m_pActCtrlShowResidualWithOutArrow = nullptr;
 
     COpenGLCore* m_pGLCore = nullptr;
     CLayerVector* m_pSxLayerVector = nullptr;
@@ -77,6 +79,8 @@ public slots:
     void itemTreeMenuSelectColorSlot(bool checked);
     void itemTreeMenuShowLayerAttributeSlot(bool checked);
     void itemTreeMenuDeleteAllChunksSlot(bool checked);
+    void itemTreeMenuShowResidualSlot(bool checked);
+    void itemTreeMenuShowResidualWithoutArrowSlot(bool checked);
 
     void TreeItemCheckStateChangedSlot(QTreeWidgetItem* pItem, Qt::CheckState nCheckState);
     void TreeItemIndxResortSlot(QTreeWidgetItem* pTarget, QTreeWidgetItem* pFroms, int nItemCount);

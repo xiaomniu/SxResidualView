@@ -1,5 +1,5 @@
-﻿#ifndef SXLAYERPOLYGONS_H
-#define SXLAYERPOLYGONS_H
+﻿#ifndef CLAYERPOLYGONS_H
+#define CLAYERPOLYGONS_H
 
 #include <string>
 #include <vector>

@@ -113,7 +113,7 @@ int COpenGLCore::Draw(){
 
 
         //ss=clock();
-        this->m_pDrawGround->Draw();
+        //this->m_pDrawGround->Draw();
         //this->m_pBaseMap->Draw();
         //printf("this->m_pBaseMap->Draw(): %lld\n", clock()-ss);
 
@@ -208,7 +208,7 @@ void COpenGLCore::InitSence(){
     this->m_MatPerspectProject = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 10000.0f);
     this->m_MatModel = glm::mat4(1.0f);
 
-    this->m_pDrawGround = new CDrawGround(this);
+    //this->m_pDrawGround = new CDrawGround(this);
 
     //this->m_pBaseMap = new SxBaseMap(this);
     //this->m_pBaseMap->Init();
@@ -222,7 +222,7 @@ void COpenGLCore::InitSence(){
 
 void COpenGLCore::InitSceneItem(){
 
-    this->m_pDrawGround->InitScene();
+    //this->m_pDrawGround->InitScene();
     //this->m_pBaseMap->Init();
 
     //this->m_pRasterDraw->Init();
@@ -2130,7 +2130,8 @@ void COpenGLCore::DrawLinesElementEx(int nPointCnt, double* pPoints, int nPointF
 
 }
 
-void COpenGLCore::DrawLinesElementOperate(int nPointCnt, double* pPoints,
+void COpenGLCore::DrawLinesElementOperate(
+    int nPointCnt, double* pPoints,
     int nPointFlagsCnt, float* pPointsFlags,
     int nPointElementCnt, unsigned int* pPointsElement,
     int nPointFlagsCntOperate, float* pPointsFlagsOperate,

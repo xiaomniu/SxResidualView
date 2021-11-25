@@ -47,8 +47,18 @@ public slots:
     void Clicked_Btn_DemImgFullPath();
     void Clicked_Lab_3DView();
     void Clicked_Lab_ResidualInfo();
-    void Clicked_Lab_Residual_DelPoints();
     void Clicked_Lab_Residual_SaveFile();
+
+    void Clicked_Lab_Residual_LianJie_Filter();
+    void Clicked_Lab_Residual_Control_Filter();
+    void Clicked_Lab_Residual_Check_Filter();
+
+    void Clicked_Lab_TransTo_CheckPoint();
+    void Clicked_Lab_TransTo_ControlPoint();
+
+    void Clicked_Lab_Show_PAN_Tif();
+
+    void slotMouseRelease(void *pParam);
 };
 
 #endif // CTOOLBAR01_H

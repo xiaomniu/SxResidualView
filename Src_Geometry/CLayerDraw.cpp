@@ -91,12 +91,7 @@ CLayerDraw::CLayerDraw(COpenGLCore* pGLCore)
 
     this->Init();
 
-    CLayerField layerFld;
-    layerFld.m_sFieldName = "OID";
-    layerFld.m_nFieldWidth = 10;
-    layerFld.m_nPrecision = 0;
-    layerFld.m_nFieldType = ECHUNK_ATTRIBUTE_TYPE::e_int;
-    this->m_vecLayerFields.push_back(layerFld);
+    this->AddLayerField("OID", 10, 0, ECHUNK_ATTRIBUTE_TYPE::e_int);
 }
 
 CLayerDraw::~CLayerDraw()
@@ -109,6 +104,9 @@ void CLayerDraw::Init() {
 
 void CLayerDraw::ShowEnable(int nShowOrHide){
     this->m_nShowOrHide = nShowOrHide;
+    if(this->m_pRelationLayer){
+        this->m_pRelationLayer->m_nShowOrHide = this->m_nShowOrHide;
+    }
 }
 int CLayerDraw::ShowState(){
     return this->m_nShowOrHide;
@@ -168,6 +166,15 @@ int CLayerDraw::GetIntersectionPoint(glm::dvec2& p1, glm::dvec2& p2, glm::dvec2&
     ptRet.x = (fC2 * fB1 - fC1 * fB2) / fM;
     ptRet.y = (fC1 * fA2 - fC2 * fA1) / fM;
     return 1;
+}
+
+void CLayerDraw::AddLayerField(const std::string& sFieldName, int nFieldWidth, int nPrecision, int nFiledType){
+    CLayerField layerFld;
+    layerFld.m_sFieldName = sFieldName;
+    layerFld.m_nFieldWidth = nFieldWidth;
+    layerFld.m_nPrecision = nPrecision;
+    layerFld.m_nFieldType = nFiledType;
+    this->m_vecLayerFields.push_back(layerFld);
 }
 
 void CLayerDraw::MakeupFields(){

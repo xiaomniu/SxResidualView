@@ -39,6 +39,7 @@ void CLayerLines::Init() {
 
 void CLayerLines::Draw() {
 
+    this->m_pRelationLayer->m_nShowOrHide = this->m_nShowOrHide;
     if(this->m_nShowOrHide == ESHOWORHIDE::e_hide){
         return ;
     }

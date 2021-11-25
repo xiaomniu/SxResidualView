@@ -28,6 +28,9 @@ int CReadRaster::OpenRaster(const std::string &sRasterFileFullName)
     CPLSetConfigOption("GDAL_DATA", "./data");			//图像缓存路径
     GDALAllRegister();									//注册图像驱动
     this->m_pDataset = (GDALDataset*)GDALOpen(this->m_sRasterFileFullName.c_str(), GA_Update);
+    if(this->m_pDataset == nullptr){
+        return 0;
+    }
 
     this->m_nBandCnt = this->m_pDataset->GetRasterCount();
 

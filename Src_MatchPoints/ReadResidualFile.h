@@ -49,6 +49,7 @@ public:
 	double m_fLatFen;
 	double m_fLatMiao;
 	double m_fHeight;
+    double m_fAngle;//交汇角
 
 	std::string m_sDianHao;
     CLianJieDianXiangFangWuCha* m_pLianJieDianXiangFangWuCha1 = nullptr;
@@ -123,6 +124,9 @@ public:
 	double m_fResidual_Plane;
 	double m_fResidual_Height;
 	double m_fAngle;
+
+    double m_fAdjLng;
+    double m_fAdjLat;
 
 	std::string m_sDianHao;
     CControlDianXiangFangWuCha* m_pControlDianXiangFangWuCha = nullptr;
@@ -211,6 +215,9 @@ public:
 	double m_fResidual_Plane;
 	double m_fResidual_Height;
 	double m_fAngle;
+
+    double m_fAdjLng;
+    double m_fAdjLat;
 
 	std::string m_sDianHao;
     CCheckDianXiangFangWuCha* m_pCheckDianXiangFangWuCha = nullptr;

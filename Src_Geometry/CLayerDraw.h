@@ -1,5 +1,5 @@
-﻿#ifndef SXLAYERDRAW_H
-#define SXLAYERDRAW_H
+﻿#ifndef CLAYERDRAW_H
+#define CLAYERDRAW_H
 
 #include <string>
 #include <vector>
@@ -249,6 +249,7 @@ public:
 
     CChunk* m_pHitChunk = nullptr;
 
+    void AddLayerField(const std::string& sFieldName, int nFieldWidth, int nPrecision, int nFiledType);
     void MakeupFields();
     void DrawTest();
 
@@ -275,10 +276,11 @@ public:
     CHitParam* m_pHitParam = nullptr;
 
     std::string m_sLayerName;
+    CLayerDraw* m_pRelationLayer = nullptr;
 
     int IntersectionLine(const t_Line2D &l1, const t_Line2D &l2);
     int GetIntersectionPoint(const t_Line2D &l1, const t_Line2D &l2, glm::dvec2& ptRet);
     int GetIntersectionPoint(glm::dvec2& pt1, glm::dvec2& pt2, glm::dvec2& pt3, glm::dvec2& pt4, glm::dvec2& ptRet);
 };
 
-#endif // SXLAYERDRAW_H
+#endif // CLAYERDRAW_H

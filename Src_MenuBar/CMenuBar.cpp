@@ -5,6 +5,7 @@
 #include "Src_MenuBar/CToolMenuHandler.h"
 #include "Src_LayerManager/CLayerManagerWidget.h"
 #include "Src_GlWnd/CMainViewWidget.h"
+#include "Src_GlWnd/CMainViewWidgetSub.h"
 
 CMenuBar::CMenuBar(QWidget *parent) :
     QWidget(parent),
@@ -47,7 +48,7 @@ CMenuBar::CMenuBar(QWidget *parent) :
     this->ui->tab_Tools->removeTab(3);
     this->ui->tab_Tools->removeTab(2);
 
-    this->ui->tab_Tools->setCurrentIndex(0);
+    this->ui->tab_Tools->setCurrentIndex(1);
 }
 
 void CMenuBar::hideOrShowTabWidget(int nTabIndx)
@@ -104,9 +105,17 @@ void CMenuBar::InitTabPage01_Start() {
     this->initToolBar(this->ui->PixTxt_Lab_Del_GroundPoint, (this->m_sExeDir + "/Res/ImgMenuBar/delete_point_01.png").c_str(), u8"删除");//QString::fromLocal8Bit("删除地面点"));
     this->initToolBar(this->ui->PixTxt_Lab_MovePoint,       (this->m_sExeDir + "/Res/ImgMenuBar/move_point_01.png").c_str(), (u8"卷帘"));//QString::fromLocal8Bit("移动点"));
 
-    this->initToolBar(this->ui->PixTxt_Lab_ResidualInfo,        (this->m_sExeDir + "/Res/ImgMenuBar/select_01.png").c_str(), u8"残差");
-    this->initToolBar(this->ui->PixTxt_Lab_Residual_DelPoints,  (this->m_sExeDir + "/Res/ImgMenuBar/select_01.png").c_str(), u8"过滤");
+    this->initToolBar(this->ui->PixTxt_Lab_ResidualInfo,        (this->m_sExeDir + "/Res/ImgMenuBar/select_01.png").c_str(), u8"残差文件");
     this->initToolBar(this->ui->PixTxt_Lab_Residual_SaveFile,   (this->m_sExeDir + "/Res/ImgMenuBar/select_01.png").c_str(), u8"保存");
+
+    this->initToolBar(this->ui->PixTxt_Lab_Residual_LianJie_Filter,  (this->m_sExeDir + "/Res/ImgMenuBar/select_01.png").c_str(), u8"连接点过滤");
+    this->initToolBar(this->ui->PixTxt_Lab_Residual_Control_Filter,  (this->m_sExeDir + "/Res/ImgMenuBar/select_01.png").c_str(), u8"控制点过滤");
+    this->initToolBar(this->ui->PixTxt_Lab_Residual_Check_Filter,  (this->m_sExeDir + "/Res/ImgMenuBar/select_01.png").c_str(), u8"检查点过滤");
+
+    this->initToolBar(this->ui->PixTxt_Lab_TransTo_CheckPoint,  (this->m_sExeDir + "/Res/ImgMenuBar/select_01.png").c_str(), u8"转为检查点");
+    this->initToolBar(this->ui->PixTxt_Lab_TransTo_ControlPoint,  (this->m_sExeDir + "/Res/ImgMenuBar/select_01.png").c_str(), u8"转为控制点");
+
+    this->initToolBar(this->ui->PixTxt_Lab_Show_PAN_Tif,  (this->m_sExeDir + "/Res/ImgMenuBar/select_01.png").c_str(), u8"显示影像");
 
     int i = 0, j = 0;
     ui->comb_Scale->setEditable(false);
@@ -131,8 +140,24 @@ void CMenuBar::InitTabPage01_Start() {
     connect(this->ui->PixTxt_Lab_Chunk_Property, &CPicTextLabel::clicked, this->m_pToolMenuHandler, &CToolMenuHandler::Clicked_Lab_ChunkAttribute);
 
     connect(this->ui->PixTxt_Lab_ResidualInfo, &CPicTextLabel::clicked, this->m_pToolMenuHandler, &CToolMenuHandler::Clicked_Lab_ResidualInfo);
-    connect(this->ui->PixTxt_Lab_Residual_DelPoints, &CPicTextLabel::clicked, this->m_pToolMenuHandler, &CToolMenuHandler::Clicked_Lab_Residual_DelPoints);
     connect(this->ui->PixTxt_Lab_Residual_SaveFile, &CPicTextLabel::clicked, this->m_pToolMenuHandler, &CToolMenuHandler::Clicked_Lab_Residual_SaveFile);
+
+    connect(this->ui->PixTxt_Lab_Residual_LianJie_Filter, &CPicTextLabel::clicked, this->m_pToolMenuHandler, &CToolMenuHandler::Clicked_Lab_Residual_LianJie_Filter);
+    connect(this->ui->PixTxt_Lab_Residual_Control_Filter, &CPicTextLabel::clicked, this->m_pToolMenuHandler, &CToolMenuHandler::Clicked_Lab_Residual_Control_Filter);
+    connect(this->ui->PixTxt_Lab_Residual_Check_Filter, &CPicTextLabel::clicked, this->m_pToolMenuHandler, &CToolMenuHandler::Clicked_Lab_Residual_Check_Filter);
+
+    connect(this->ui->PixTxt_Lab_TransTo_CheckPoint, &CPicTextLabel::clicked, this->m_pToolMenuHandler, &CToolMenuHandler::Clicked_Lab_TransTo_CheckPoint);
+    connect(this->ui->PixTxt_Lab_TransTo_ControlPoint, &CPicTextLabel::clicked, this->m_pToolMenuHandler, &CToolMenuHandler::Clicked_Lab_TransTo_ControlPoint);
+
+
+    CGlobal* pGlobal = GetGlobalPtr();
+    void (CMainViewWidget:: * pSignalMouseRelease)(void*) = &CMainViewWidget::signalMouseRelease;
+    void (CToolMenuHandler:: * pSlotMouseRelease)(void*) = &CToolMenuHandler::slotMouseRelease;
+    this->connect((CMainViewWidget*)pGlobal->m_pMainWindow, pSignalMouseRelease, this->m_pToolMenuHandler, pSlotMouseRelease);
+    //this->connect((CMainViewWidget*)pGlobal->m_pMainWindow, &CMainViewWidget::signalMouseRelease, this->m_pToolMenuHandler, &CToolMenuHandler::slotMouseRelease);
+
+    connect(this->ui->PixTxt_Lab_Show_PAN_Tif, &CPicTextLabel::clicked, this->m_pToolMenuHandler, &CToolMenuHandler::Clicked_Lab_Show_PAN_Tif);
+
 
     this->ui->PixTxt_Lab_Grab->hide();
     this->ui->PixTxt_Lab_MovePoint->hide();
@@ -160,3 +185,4 @@ void CMenuBar::InitTabPage03_Tools(){
     connect(this->ui->PixTxt_Lab_3DView, &CPicTextLabel::clicked, this->m_pToolMenuHandler, &CToolMenuHandler::Clicked_Lab_3DView);
 
 }
+

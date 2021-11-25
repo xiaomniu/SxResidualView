@@ -34,7 +34,7 @@ const color32 COLOR32_WHITE     = 0xffffffff;   // White
 const color32 COLOR32_ZERO      = 0x00000000;   // Zero
 const color32 COLOR32_RED       = 0xffff0000;   // Red
 const color32 COLOR32_GREEN     = 0xff00ff00;   // Green
-const color32 COLOR32_BLUE      = 0xff0000ff;   // Blue
+const color32 COLOR32_BLUE      = 0xff0000ff;   // Blue】
 
 
 template <typename _T> inline const _T& TClamp(const _T& _X, const _T& _Limit1, const _T& _Limit2)

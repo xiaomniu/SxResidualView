@@ -1,5 +1,8 @@
 ﻿#include "CLayerVector.h"
 
+#include <iostream>
+#include "gdal/ogrsf_frmts.h"
+
 #include "Src_Core/DefType.h"
 #include "Src_Core/CGlobal.h"
 #include "Src_Core/CThreadPool.h"
@@ -11,6 +14,7 @@
 #include "Src_Geometry/CLayerLines.h"
 #include "Src_Geometry/CLayerPolygons.h"
 #include "Src_Geometry/CLayerPolygonsEdit.h"
+#include "Src_Geometry/CLayerResidual.h"
 #include "Src_Attribute/CChunkAttribute.h"
 #include "Src_MatchPoints/ReadResidualFile.h"
 
@@ -29,13 +33,13 @@
 
 CLayerVector::CLayerVector() {
     this->m_pGLCore = nullptr;
-    GetGlobalPtr()->m_pLayerVector = this;
+    //GetGlobalPtr()->m_pLayerVector = this;
 }
 
 CLayerVector::CLayerVector(COpenGLCore* pGLCore)
 {
     this->m_pGLCore = pGLCore;
-    GetGlobalPtr()->m_pLayerVector = this;
+    //GetGlobalPtr()->m_pLayerVector = this;
 }
 
 CLayerVector::~CLayerVector()
@@ -273,7 +277,7 @@ void CLayerVector::Draw() {
             double arrGeoIntersect[4]={pSxLayerGeoDraw->m_fMinLng, pSxLayerGeoDraw->m_fMinLat,
                                    pSxLayerGeoDraw->m_fMaxLng, pSxLayerGeoDraw->m_fMaxLat};
             if(0 == pSxLayerDraw->m_pGLCore->GetGeoIntersectRangeByView(arrGeoIntersect, arrGeoIntersect)) {
-                continue;
+                //continue;
             }
 
             pSxLayerDraw->m_nShowOrHideLast = pSxLayerDraw->m_nShowOrHide;
@@ -480,7 +484,7 @@ void CLayerVector::Draw_Bak() {
 }
 
 
-int CLayerVector::RemoveOneLayer(CLayerDraw* pLayerDraw){
+int CLayerVector::RemoveOneLayer(CLayerDraw* pLayerDraw, int nDeleteLayer/* = 1*/){
     if(pLayerDraw->m_nLayerType == ELAYERTYPE::e_Tif
             || pLayerDraw->m_nLayerType == ELAYERTYPE::e_Tiff
             || pLayerDraw->m_nLayerType == ELAYERTYPE::e_Img)
@@ -510,9 +514,12 @@ int CLayerVector::RemoveOneLayer(CLayerDraw* pLayerDraw){
             break;
         }
     }
-    CLayerDraw* pLayerTmp = this->m_vecLayerItem[i];
-    delete pLayerTmp;
-    pLayerTmp = nullptr;
+
+    if(nDeleteLayer == 1) {
+        CLayerDraw* pLayerTmp = this->m_vecLayerItem[i];
+        delete pLayerTmp;
+        pLayerTmp = nullptr;
+    }
 
     this->m_vecLayerItem.erase(this->m_vecLayerItem.begin() + i);
 
@@ -526,7 +533,7 @@ int CLayerVector::RemoveOneLayer(CLayerDraw* pLayerDraw){
     return 1;
 }
 
-int CLayerVector::RemoveAllLayers(){
+int CLayerVector::RemoveAllLayers(int nDeleteLayer/* = 1*/){
 
     this->m_nExistRasterCnt = 0;
     this->m_nLayerIndxRollerBind = -1;
@@ -537,12 +544,14 @@ int CLayerVector::RemoveAllLayers(){
     this->m_nBeingEditor = 0;
     this->m_pGeoLayerEdit = nullptr;
 
-    CLayerDraw* pLayerDraw = nullptr;
-    int i = 0, nVecLayerItemCnt = (int)this->m_vecLayerItem.size();
-    for(i = 0; i<nVecLayerItemCnt; i++){
-        pLayerDraw = this->m_vecLayerItem[i];
-        delete pLayerDraw;
-        pLayerDraw = nullptr;
+    if(nDeleteLayer == 1) {
+        CLayerDraw* pLayerDraw = nullptr;
+        int i = 0, nVecLayerItemCnt = (int)this->m_vecLayerItem.size();
+        for(i = 0; i<nVecLayerItemCnt; i++){
+            pLayerDraw = this->m_vecLayerItem[i];
+            delete pLayerDraw;
+            pLayerDraw = nullptr;
+        }
     }
     this->m_vecLayerItem.clear();
     return 1;
@@ -594,6 +603,16 @@ int CLayerVector::UpdateLayerIndxRollerBlind(CLayerDraw* pLayerDraw, int nChecke
     }
     return nLayerIndx;
 }
+
+CLayerDraw* CLayerVector::AddLayerItem(CLayerDraw* pOtherLayer){
+    this->m_vecLayerItem.push_back(pOtherLayer);
+    this->m_mapLayerItem2Indx.insert(std::pair<CLayerDraw*, int>(pOtherLayer, this->m_nVecLayerItemCnt));
+    this->m_nVecLayerItemCnt = (int)this->m_vecLayerItem.size();
+    pOtherLayer->m_pLayerVector = this;
+    this->m_nExistRasterCnt++;
+    return pOtherLayer;
+}
+
 CRasterDraw* CLayerVector::AddRasterItem(const std::string& sTifFullPath){
 
     CRasterDraw* pSxRasterDraw = new CRasterDraw(this->m_pGLCore, sTifFullPath);
@@ -609,9 +628,69 @@ CRasterDraw* CLayerVector::AddRasterItem(const std::string& sTifFullPath){
 
     return pSxRasterDraw;
 }
-#include <iostream>
-#include "gdal/ogrsf_frmts.h"
 
+
+CLayerGeoDraw* CLayerVector::CreateEmptyGeoLayer(int nGeoLayerType){
+
+    CLayerGeoDraw* pLayerGeo = nullptr;
+    CLayerPoints* pLayerPoints = nullptr;
+    CLayerLines* pLayerLines = nullptr;
+    CLayerPolygons* pLayerPolygons = nullptr;
+    CLayerResidual* pLayerResidual = nullptr;
+    int nLayerTypeGeo = 0;
+    switch (nGeoLayerType) {
+    case 1: {
+        pLayerPoints = new CLayerPoints(this->m_pGLCore);
+        pLayerGeo = pLayerPoints;
+        pLayerGeo->m_nLayerType = ELAYERTYPE::e_shapePoint;
+        nLayerTypeGeo = 1;
+        pLayerGeo->m_sLayerName = "new_point_layer";
+        break;
+    }
+    case 2:{
+        //pLayerPoints = new SxLayerPoints(this->m_pGLCore);
+        pLayerLines = new CLayerLines(this->m_pGLCore);
+        pLayerGeo = pLayerLines;
+        pLayerGeo->m_nLayerType = ELAYERTYPE::e_shapePolyline;
+        nLayerTypeGeo = 2;
+        pLayerGeo->m_sLayerName = "new_polyline_layer";
+        break;
+    }
+    case 3:{
+        //pLayerPoints = new SxLayerPoints(this->m_pGLCore);
+        pLayerPolygons = new CLayerPolygons(this->m_pGLCore);
+        pLayerGeo = pLayerPolygons;
+        pLayerGeo->m_nLayerType = ELAYERTYPE::e_shapePolygon;
+        nLayerTypeGeo = 3;
+        pLayerGeo->m_sLayerName = "new_polygon_layer";
+        break;
+    }
+    case 4:{
+        //pLayerPoints = new SxLayerPoints(this->m_pGLCore);
+        pLayerResidual = new CLayerResidual(this->m_pGLCore);
+        pLayerGeo = pLayerResidual;
+        pLayerGeo->m_nLayerType = ELAYERTYPE::e_shapePolyline;
+        nLayerTypeGeo = 2;
+        pLayerGeo->m_sLayerName = "new_polyline_layer";
+        break;
+    }
+    default:
+        return nullptr;
+    }
+    pLayerGeo->Init();
+
+    pLayerGeo->MakeupFields();
+
+    pLayerGeo->MakeUpChunks();
+
+
+    this->m_vecLayerItem.push_back(pLayerGeo);
+    this->m_mapLayerItem2Indx.insert(std::pair<CLayerDraw*, int>(pLayerGeo, this->m_nVecLayerItemCnt));
+    this->m_nVecLayerItemCnt = (int)this->m_vecLayerItem.size();
+    pLayerGeo->m_pLayerVector = this;
+
+    return pLayerGeo;
+}
 CLayerGeoDraw* CLayerVector::ReadShapeFile(const std::string& sShpFileFullPath) {
     GDALAllRegister();
     CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");	//图像路径不支持中文（可设置）
@@ -1038,7 +1117,6 @@ CLayerGeoDraw* CLayerVector::ReadShapeFile(const std::string& sShpFileFullPath) 
 
     return pLayerGeo;
 }
-
 CLayerGeoDraw* CLayerVector::ReadShapeFile_bak(const std::string& sShpFileFullPath) {
     GDALAllRegister();
     CPLSetConfigOption("GDAL_FILENAME_IS_UTF8", "NO");	//图像路径不支持中文（可设置）
@@ -1674,6 +1752,7 @@ std::vector<CLayerGeoDraw*> CLayerVector::AddGeometryItemResidualInfo(const std:
     residualInfo.LoadResidualFile(sResidualFileFullPath);
     //pResidualInfo = nullptr;
     //////////////////////////////////////////////////////////////////
+    //连接点
 
     CLayerGeoDraw* pLayerGeo = nullptr;
     CLayerPoints* pLayerPoints = nullptr;
@@ -1929,6 +2008,7 @@ std::vector<CLayerGeoDraw*> CLayerVector::AddGeometryItemResidualInfo(const std:
     this->m_nVecLayerItemCnt = (int)this->m_vecLayerItem.size();
     pLayerGeo->m_pLayerVector = this;
     //////////////////////////////////////////////////////////////////
+    //控制点
 
     pLayerPoints = new CLayerPoints(this->m_pGLCore);
     pLayerGeo = pLayerPoints;
@@ -1977,7 +2057,7 @@ std::vector<CLayerGeoDraw*> CLayerVector::AddGeometryItemResidualInfo(const std:
     layerFld.m_nFieldType = ECHUNK_ATTRIBUTE_TYPE::e_double;
     pLayerGeo->m_vecLayerFields.push_back(layerFld);
 
-    layerFld.m_sFieldName = "Residual_Plane";
+    layerFld.m_sFieldName = "Residual_Plane";//8
     layerFld.m_nFieldWidth = 20;
     layerFld.m_nPrecision = 10;
     layerFld.m_nFieldType = ECHUNK_ATTRIBUTE_TYPE::e_double;
@@ -2144,6 +2224,7 @@ std::vector<CLayerGeoDraw*> CLayerVector::AddGeometryItemResidualInfo(const std:
     pLayerGeo->m_pLayerVector = this;
 
     //////////////////////////////////////////////////////////////////
+    // 检查点
 
     pLayerPoints = new CLayerPoints(this->m_pGLCore);
     pLayerGeo = pLayerPoints;
@@ -2320,7 +2401,7 @@ std::vector<CLayerGeoDraw*> CLayerVector::AddGeometryItemResidualInfo(const std:
         chunkAttrVal.SetAttributeValue((void*)pCheckDianPrecision);
         pChunk->m_vecAttributeValues.push_back(chunkAttrVal);
 
-        if(pControlDianPrecision->m_pControlDianXiangFangWuCha){
+        if(pCheckDianPrecision->m_pCheckDianXiangFangWuCha){
             chunkAttrVal.SetAttributeValue((char*)pCheckDianPrecision->m_pCheckDianXiangFangWuCha->m_sTifName.c_str());
             pChunk->m_vecAttributeValues.push_back(chunkAttrVal);
 

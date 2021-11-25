@@ -7,6 +7,7 @@
 #include "Src_Core/CGlobal.h"
 #include "Src_MenuBar/CMenuBar.h"
 #include "Src_GlWnd/CMainViewWidget.h"
+#include "Src_GlWnd/CMainViewWidgetSub.h"
 #include "Src_LayerManager/CLayerManagerWidget.h"
 #include "Src_Attribute/CLayerAttribute.h"
 #include "Src_Attribute/CChunkAttribute.h"
@@ -57,9 +58,12 @@ void CMainWindow::InitMainWidgets(){
     //"padding: 4px;\n"
     //"}\n");
 
+    CGlobal* pGlobal = GetGlobalPtr();
 
     this->m_pSxDlgLayerManager = new CLayerManagerWidget(this);
     this->m_pMainViewWidget = new CMainViewWidget(this);
+    CMainViewWidgetSub* pSubWnd0 = new CMainViewWidgetSub(this);
+    CMainViewWidgetSub* pSubWnd1 = new CMainViewWidgetSub(this);
     this->m_pLayerAttribute = new CLayerAttribute(this);
     this->m_pChunkAttribute = new CChunkAttribute;
     QDialog* pOtherProperty1 = new QDialog;
@@ -107,6 +111,49 @@ void CMainWindow::InitMainWidgets(){
     pDockMainView->setMinimumHeight(300);
     this->m_docks.append(pDockMainView);
     pDockMainView111 = pDockMainView;
+
+    //if (0) {
+        QDockWidget *pDockOutput01 = new QDockWidget(tr("Output1"), this);
+        pTitle = pDockOutput01->titleBarWidget();
+        lEmptyWidget = new QWidget();
+        pDockOutput01->setTitleBarWidget(lEmptyWidget);
+        delete pTitle;
+        //pDockOutput01->setFeatures(QDockWidget::DockWidgetFloatable);
+        //pDockOutput->setAllowedAreas(Qt::BottomDockWidgetArea);
+        //this->m_pOutputInfo = new CStatusInfo;
+        //pDockOutput->setWidget(this->m_pOutputInfo);
+        pDockOutput01->setFeatures(QDockWidget::NoDockWidgetFeatures);
+        pDockOutput01->setWidget(pSubWnd0);
+        pDockOutput01->setMinimumWidth(595);
+        pDockOutput01->setMinimumHeight(300);
+        //pDockOutput01->setFixedWidth(595);
+        //pDockOutput01->setFixedHeight(300);
+        //addDockWidget(Qt::RightDockWidgetArea, pDockOutput);
+        this->m_docks.append(pDockOutput01);
+        pGlobal->m_vecDockSub.push_back(pDockOutput01);
+
+        QDockWidget *pDockOutput02 = new QDockWidget(tr("Output2"), this);
+        pTitle = pDockOutput02->titleBarWidget();
+        lEmptyWidget = new QWidget();
+        pDockOutput02->setTitleBarWidget(lEmptyWidget);
+        delete pTitle;
+        //pDockOutput02->setFeatures(QDockWidget::DockWidgetFloatable);
+        //pDockOutput->setAllowedAreas(Qt::BottomDockWidgetArea);
+        //this->m_pOutputInfo = new CStatusInfo;
+        //pDockOutput->setWidget(this->m_pOutputInfo);
+        //CMainViewWidgetSub* pTest02 = new CMainViewWidgetSub(this);
+        pDockOutput02->setFeatures(QDockWidget::NoDockWidgetFeatures);
+        pDockOutput02->setWidget(pSubWnd1);
+        pDockOutput02->setMinimumWidth(595);
+        pDockOutput02->setMinimumHeight(300);
+        //pDockOutput02->setFixedWidth(595);
+        //pDockOutput02->setFixedHeight(300);
+        //addDockWidget(Qt::RightDockWidgetArea, pDockOutput);
+
+        this->m_docks.append(pDockOutput02);
+        pGlobal->m_vecDockSub.push_back(pDockOutput02);
+    //}
+
     QDockWidget *pDockLayerProperty = new QDockWidget(u8"图层属性 ", this);
     pDockLayerProperty->setAllowedAreas((Qt::DockWidgetAreas)nDockArea);
     pDockLayerProperty->setWidget(this->m_pLayerAttribute);
@@ -140,13 +187,23 @@ void CMainWindow::InitMainWidgets(){
     //splitDockWidget(pDockToolBar, pDockLayTop, Qt::Vertical);
     splitDockWidget(pDockToolBar, pDockLayManager, Qt::Vertical);
     splitDockWidget(pDockLayManager, pDockMainView, Qt::Horizontal);
-    splitDockWidget(pDockMainView, pDockLayerProperty, Qt::Horizontal);
-    //splitDockWidget(pDockLayerProperty, pDockChunkProperty, Qt::Vertical);
+    //splitDockWidget(pDockMainView, pDockOutput01, Qt::Vertical);
+    //splitDockWidget(pDockOutput01, pDockFill0, Qt::Horizontal);
+    splitDockWidget(pDockMainView, pDockOutput01, Qt::Horizontal);
+    splitDockWidget(pDockOutput01, pDockOutput02, Qt::Vertical);
+    //splitDockWidget(pDockOutput01, pDockLayerProperty, Qt::Horizontal);
+    tabifyDockWidget(pDockLayManager, pDockLayerProperty);
     tabifyDockWidget(pDockLayerProperty, pDockChunkProperty);
     tabifyDockWidget(pDockChunkProperty, pDockOther1);
-    ShowDock(QList<int>()<<0<<1<<2<<3<<4<<5);//<<5<<6<<7
+    ShowDock(QList<int>()<<0<<1<<2<<3<<4<<5<<6<<7);//<<6<<7
+
+    //pSubWnd0->hide();
+    //pSubWnd1->hide();
 
     this->m_pMainViewWidget->setFocus();
+
+    pGlobal->m_vecDockSub[0]->hide();
+    pGlobal->m_vecDockSub[1]->hide();
 }
 
 void CMainWindow::RemoveAllDock()

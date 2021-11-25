@@ -1,5 +1,5 @@
-﻿#ifndef CMAINVIEWWIDGET_H
-#define CMAINVIEWWIDGET_H
+﻿#ifndef CMAINVIEWWIDGETSUB_H
+#define CMAINVIEWWIDGETSUB_H
 
 #include <QtWidgets/QOpenGLWidget>
 #include <QMouseEvent>
@@ -10,23 +10,23 @@
 #include <time.h>
 
 namespace Ui {
-class CMainViewWidget;
+class CMainViewWidgetSub;
 }
 
 class CCamera;
-class COpenGLCore;
-class CMainViewWidget : public QOpenGLWidget
+class COpenGLCoreSub;
+class CMainViewWidgetSub : public QOpenGLWidget
 {
     Q_OBJECT
 
 public:
-    explicit CMainViewWidget(QWidget *parent = nullptr);
-    ~CMainViewWidget();
+    explicit CMainViewWidgetSub(QWidget *parent = nullptr);
+    ~CMainViewWidgetSub();
 
     QWidget* m_pParent = nullptr;
 
     CCamera* m_pCamera = nullptr;
-    COpenGLCore* m_pGLCore = nullptr;
+    COpenGLCoreSub* m_pGLCore = nullptr;
 
     QAction* m_pActCtrlAddPoint = nullptr;
     QAction* m_pActCtrlDelPoint = nullptr;
@@ -53,7 +53,7 @@ protected:
     void keyReleaseEvent(QKeyEvent *event);  //键盘释放事件
 
 private:
-    Ui::CMainViewWidget *ui;
+    Ui::CMainViewWidgetSub *ui;
 
 signals:
     void signalMouseRelease(void* pParam);
@@ -63,4 +63,4 @@ public slots:
     void itemTreeMenuDelPointSlot(bool checked);
 };
 
-#endif // CMAINVIEWWIDGET_H
+#endif // CMainViewWidgetSub_H

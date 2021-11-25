@@ -188,7 +188,7 @@ int CChunkAttribute::FreshViewByChunks(){
 
     if(this->m_nShowHide == 0)
         return 0;
-    CLayerVector* pLayerVector = GetGlobalPtr()->m_pLayerVector;
+    CLayerVector* pLayerVector = GetGlobalPtr()->m_pGLCore->m_pLayerVector;
     CLayerGeoDraw* pLayer = nullptr;
     int i = 0, nLayerCnt = (int)pLayerVector->m_vecLayerItem.size();
     CChunk* pChunk = nullptr;

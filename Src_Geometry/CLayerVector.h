@@ -1,5 +1,5 @@
-﻿#ifndef SXLAYERRASTER_H
-#define SXLAYERRASTER_H
+﻿#ifndef CLAYERRASTER_H
+#define CLAYERRASTER_H
 
 #include <string>
 #include <vector>
@@ -30,18 +30,20 @@ public:
     void DrawTest();
 
 
-    int RemoveOneLayer(CLayerDraw* pLayerDraw);
-    int RemoveAllLayers();
+    int RemoveOneLayer(CLayerDraw* pLayerDraw, int nDeleteLayer = 1);
+    int RemoveAllLayers(int nDeleteLayer = 1);
 
 
     int IsContains(double* pSrcRect, double* pDstRect);
     int IsOverlaps(double* pSrcRect, double* pDstRect);
 
 
+    CLayerDraw* AddLayerItem(CLayerDraw* pOtherLayer);
 
     int m_nExistRasterCnt = 0;
     CRasterDraw* AddRasterItem(const std::string& sTifFullPath);
 
+    CLayerGeoDraw* CreateEmptyGeoLayer(int nGeoLayerType);
     CLayerGeoDraw* ReadShapeFile(const std::string& sShpFileFullPath);
     CLayerGeoDraw* ReadShapeFile_bak(const std::string& sShpFileFullPath);
     CLayerGeoDraw* AddGeometryItem(const std::string& sVectorFullPath);
@@ -79,4 +81,4 @@ public:
     CLayerDraw* FindLayerByName(const std::string& sLayerName);
 };
 
-#endif // SXLAYERRASTER_H
+#endif // CLAYERRASTER_H

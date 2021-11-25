@@ -41,7 +41,6 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-
     std::string sExeFullPath = QCoreApplication::applicationFilePath().toLocal8Bit().data();
     std::string sExeDir = sExeFullPath.substr(0, sExeFullPath.rfind('/'));//applicationDirPath
 

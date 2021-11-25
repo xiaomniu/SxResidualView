@@ -1,22 +1,21 @@
-﻿#include "CMainViewWidget.h"
-#include "ui_CMainViewWidget.h"
+﻿#include "CMainViewWidgetSub.h"
+#include "ui_CMainViewWidgetSub.h"
 
 #include <QtWidgets/QMenu>
+#include <unordered_map>
 
 #include "Src_Core/CGlobal.h"
 #include "Src_Geometry/CLayerDraw.h"
 #include "Src_Geometry/CLayerVector.h"
 #include "Src_Geometry/CLayerPolygonsEdit.h"
 #include "Src_GlWnd/CCamera.h"
+#include "Src_GlWnd/COpenGLCoreSub.h"
 
-CMainViewWidget::CMainViewWidget(QWidget *parent) :
+CMainViewWidgetSub::CMainViewWidgetSub(QWidget *parent) :
     QOpenGLWidget(parent),
-    ui(new Ui::CMainViewWidget)
+    ui(new Ui::CMainViewWidgetSub)
 {
     ui->setupUi(this);
-
-    CGlobal* pGlobal = GetGlobalPtr();
-    pGlobal->m_pMainWindow = this;
 
     this->m_pParent = parent;
     this->setMouseTracking(true);
@@ -25,18 +24,23 @@ CMainViewWidget::CMainViewWidget(QWidget *parent) :
     pActCtrl0 = new QAction(QStringLiteral("增加点"), this);
     //pActCtrl0->setCheckable(true);
     //pActCtrl0->setChecked(true);
-    connect(pActCtrl0, &QAction::triggered, this, &CMainViewWidget::itemTreeMenuAddPointSlot);
+    connect(pActCtrl0, &QAction::triggered, this, &CMainViewWidgetSub::itemTreeMenuAddPointSlot);
     this->m_pActCtrlAddPoint = pActCtrl0;
 
     QAction* pActCtrl1 = nullptr;
     pActCtrl1 = new QAction(QStringLiteral("删除点"), this);
     //pActCtrl1->setCheckable(true);
     //pActCtrl1->setChecked(false);
-    connect(pActCtrl1, &QAction::triggered, this, &CMainViewWidget::itemTreeMenuDelPointSlot);
+    connect(pActCtrl1, &QAction::triggered, this, &CMainViewWidgetSub::itemTreeMenuDelPointSlot);
     this->m_pActCtrlDelPoint = pActCtrl1;
+
+    //this->hide();
+    CGlobal* pGlobal = GetGlobalPtr();
+    pGlobal->m_vecWndSub.push_back(this);
+    pGlobal->m_mapWnd2GLCore.insert(std::pair<QWidget*, COpenGLCoreSub*>(this, this->m_pGLCore));
 }
 
-CMainViewWidget::~CMainViewWidget()
+CMainViewWidgetSub::~CMainViewWidgetSub()
 {
     delete ui;
 
@@ -50,23 +54,20 @@ CMainViewWidget::~CMainViewWidget()
     }
 }
 
-void CMainViewWidget::initializeGL(){
-    CGlobal* pGlobal = GetGlobalPtr();
-    this->m_pGLCore = new COpenGLCore;
-    pGlobal->m_pGLCore = this->m_pGLCore;
+void CMainViewWidgetSub::initializeGL(){
+    this->m_pGLCore = new COpenGLCoreSub;
 
     this->m_pGLCore->InitSceneItem();
     this->m_pGLCore->m_pParentWidget = this;
 
     this->m_pCamera = new CCamera(this->m_pGLCore);
-
 }
 
-void CMainViewWidget::resizeGL(int w, int h){
+void CMainViewWidgetSub::resizeGL(int w, int h){
     this->m_pGLCore->ViewPortResize(w, h);
 }
 
-void CMainViewWidget::paintGL() {
+void CMainViewWidgetSub::paintGL() {
 
     time_t ss = clock();
     //if(ss - this->m_nOrignalTime > 50){
@@ -84,7 +85,7 @@ void CMainViewWidget::paintGL() {
 }
 
 
-void CMainViewWidget::mouseMoveEvent(QMouseEvent *event)
+void CMainViewWidgetSub::mouseMoveEvent(QMouseEvent *event)
 {
     int xpos = event->pos().x();
     int ypos = event->pos().y();
@@ -98,21 +99,21 @@ void CMainViewWidget::mouseMoveEvent(QMouseEvent *event)
         this->m_pGLCore->m_nMouseStatus = COpenGLCore::e_Mouse_MIDDLE_DOWN_MOVING;
         this->m_pGLCore->MidleDownMoving(deltaX, -deltaY);
     }
-    else if(this->m_nRbtnDown == 1) {
-
-        int deltaX = xpos - this->m_OriginalPos.x();
-        int deltaY = ypos - this->m_OriginalPos.y();
-        this->m_OriginalPos.setX(xpos);
-        this->m_OriginalPos.setY(ypos);
-
-        this->m_pCamera->UpdateDirection(deltaX, deltaY);
-        this->m_pGLCore->m_nMouseStatus = COpenGLCore::e_Camera_MOVING;
-    }
+    //else if(this->m_nRbtnDown == 1) {
+    //
+    //    int deltaX = xpos - this->m_OriginalPos.x();
+    //    int deltaY = ypos - this->m_OriginalPos.y();
+    //    this->m_OriginalPos.setX(xpos);
+    //    this->m_OriginalPos.setY(ypos);
+    //
+    //    this->m_pCamera->UpdateDirection(deltaX, deltaY);
+    //    this->m_pGLCore->m_nMouseStatus = COpenGLCore::e_Camera_MOVING;
+    //}
     this->m_pGLCore->MouseMoving(xpos, ypos);
     this->update();
 }
 
-void CMainViewWidget::wheelEvent(QWheelEvent *event)
+void CMainViewWidgetSub::wheelEvent(QWheelEvent *event)
 {
     //QPoint ptAngleDelta = event->angleDelta();
     //QPoint ptPixelDelta = event->pixelDelta();
@@ -123,7 +124,7 @@ void CMainViewWidget::wheelEvent(QWheelEvent *event)
     this->update();
 }
 
-void CMainViewWidget::mousePressEvent(QMouseEvent *event)
+void CMainViewWidgetSub::mousePressEvent(QMouseEvent *event)
 {
     int xpos = event->pos().x();
     int ypos = event->pos().y();
@@ -153,7 +154,7 @@ void CMainViewWidget::mousePressEvent(QMouseEvent *event)
     }
 }
 
-void CMainViewWidget::mouseDoubleClickEvent(QMouseEvent *event)
+void CMainViewWidgetSub::mouseDoubleClickEvent(QMouseEvent *event)
 {
     int xpos = event->pos().x();
     int ypos = event->pos().y();
@@ -166,7 +167,7 @@ void CMainViewWidget::mouseDoubleClickEvent(QMouseEvent *event)
     }
 }
 
-void CMainViewWidget::mouseReleaseEvent(QMouseEvent *event)
+void CMainViewWidgetSub::mouseReleaseEvent(QMouseEvent *event)
 {
     Qt::MouseButton eMouseBtnType = event->button();
     switch(eMouseBtnType){
@@ -180,12 +181,12 @@ void CMainViewWidget::mouseReleaseEvent(QMouseEvent *event)
             this->m_pGLCore->m_pLayerVector->m_pGeoLayerEdit->m_nMovingPoint = 0;
         }
 
-        emit this->signalMouseRelease(this->m_pGLCore);
+        //emit this->signalMouseRelease(this->m_pGLCore);
         break;}
     case Qt::RightButton:{
-        int xpos = event->pos().x();
-        int ypos = event->pos().y();
-        this->m_pGLCore->MouseRelease(2, xpos, ypos);
+        //int xpos = event->pos().x();
+        //int ypos = event->pos().y();
+        //this->m_pGLCore->MouseRelease(2, xpos, ypos);
         this->m_nRbtnDown = 0;
         if(this->m_pGLCore->m_pLayerVector->m_pGeoLayerEdit) {
             this->m_pGLCore->m_pLayerVector->m_pGeoLayerEdit->m_nMovingPoint = 0;
@@ -220,7 +221,7 @@ void CMainViewWidget::mouseReleaseEvent(QMouseEvent *event)
     }
 }
 
-void CMainViewWidget::keyPressEvent(QKeyEvent *event)
+void CMainViewWidgetSub::keyPressEvent(QKeyEvent *event)
 {
     int nFlag = 0;
     const int nKeyFlag = 1;
@@ -270,7 +271,7 @@ void CMainViewWidget::keyPressEvent(QKeyEvent *event)
     //this->handleKeyPressEvent(event);
 }
 
-void CMainViewWidget::keyReleaseEvent(QKeyEvent *event)
+void CMainViewWidgetSub::keyReleaseEvent(QKeyEvent *event)
 {
     int nFlag = 0;
     const int nKeyFlag = 0;
@@ -314,7 +315,7 @@ void CMainViewWidget::keyReleaseEvent(QKeyEvent *event)
     //this->handleKeyReleaseEvent(event);
 }
 
-void CMainViewWidget::itemTreeMenuAddPointSlot(bool checked)
+void CMainViewWidgetSub::itemTreeMenuAddPointSlot(bool checked)
 {
     printf("itemTreeMenuAddPointSlot:%d\n", checked);
     if( !(this->m_pGLCore->m_pLayerVector->m_pGeoLayerEdit && this->m_pGLCore->m_pLayerVector->m_pGeoLayerEdit->m_nHitParamFlag != 0))
@@ -325,7 +326,7 @@ void CMainViewWidget::itemTreeMenuAddPointSlot(bool checked)
     this->update();
 }
 
-void CMainViewWidget::itemTreeMenuDelPointSlot(bool checked)
+void CMainViewWidgetSub::itemTreeMenuDelPointSlot(bool checked)
 {
     printf("itemTreeMenuDelPointSlot:%d\n", checked);
     if( !(this->m_pGLCore->m_pLayerVector->m_pGeoLayerEdit && this->m_pGLCore->m_pLayerVector->m_pGeoLayerEdit->m_nHitParamFlag != 0))

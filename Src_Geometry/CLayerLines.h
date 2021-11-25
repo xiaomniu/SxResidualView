@@ -1,5 +1,5 @@
-﻿#ifndef SXLAYERLINES_H
-#define SXLAYERLINES_H
+﻿#ifndef CLAYERLINES_H
+#define CLAYERLINES_H
 
 #include <string>
 #include <vector>

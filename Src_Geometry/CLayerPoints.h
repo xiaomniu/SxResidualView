@@ -1,5 +1,5 @@
-﻿#ifndef SXLAYERPOINTS_H
-#define SXLAYERPOINTS_H
+﻿#ifndef CLAYERPOINTS_H
+#define CLAYERPOINTS_H
 
 #include <string>
 #include <vector>
@@ -40,6 +40,8 @@ public:
 
     virtual int MakeUpChunks();
     int MakeUpChunksState();
+
+    int ConvertSelectedChunksToOtherLayer(CLayerGeoDraw* pOtherLayer);
 
     void DrawTest();
 };

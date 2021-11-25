@@ -27,6 +27,7 @@
 #include "Src_Geometry/CRasterDraw.h"
 #include "Src_Geometry/CLayerGeoDraw.h"
 #include "Src_Geometry/CLayerVector.h"
+#include "Src_Geometry/CLayerResidual.h"
 
 #include "Src_Core/Misc.h"
 #include "Src_Core/CGlobal.h"
@@ -125,6 +126,17 @@ CLayerManagerWidget::CLayerManagerWidget(QWidget *parent) :
     this->m_pActCtrlDeleteAllChunks = pActCtrl;
     connect(pActCtrl, &QAction::triggered, this, &CLayerManagerWidget::itemTreeMenuDeleteAllChunksSlot);
 
+    pActCtrl = new QAction(QStringLiteral("残差图"), this);
+    //pActCtrl->setCheckable(true);
+    //pActCtrl->setChecked(false);
+    this->m_pActCtrlShowResidual = pActCtrl;
+    connect(pActCtrl, &QAction::triggered, this, &CLayerManagerWidget::itemTreeMenuShowResidualSlot);
+
+    pActCtrl = new QAction(QStringLiteral("显示箭头"), this);
+    //pActCtrl->setCheckable(true);
+    //pActCtrl->setChecked(false);
+    this->m_pActCtrlShowResidualWithOutArrow = pActCtrl;
+    connect(pActCtrl, &QAction::triggered, this, &CLayerManagerWidget::itemTreeMenuShowResidualWithoutArrowSlot);
 }
 
 CLayerManagerWidget::~CLayerManagerWidget()
@@ -551,6 +563,9 @@ void CLayerManagerWidget::itemTreeMenuSlot(const QPoint &pos)
         case ELAYERTYPE::e_shapePolygon:{
             menu.addSeparator();
             menu.addAction(this->m_pActCtrlSelectLayerColor);
+            menu.addAction(this->m_pActCtrlShowResidual);
+            menu.addAction(this->m_pActCtrlShowResidualWithOutArrow);
+
             break;
         }
         }
@@ -742,7 +757,7 @@ void CLayerManagerWidget::itemTreeMenuShowLayerAttributeSlot(bool checked){
 }
 
 void CLayerManagerWidget::itemTreeMenuDeleteAllChunksSlot(bool checked){
-    printf("itemTreeMenuSelectColorSlot:%d\n", checked);
+    printf("itemTreeMenuDeleteAllChunksSlot:%d\n", checked);
     QModelIndex curIndex = ui->m_pCtlTreeView->currentIndex();
     if (curIndex.isValid()) {
         QTreeWidgetItem* pItem = ui->m_pCtlTreeView->currentItem();
@@ -756,6 +771,90 @@ void CLayerManagerWidget::itemTreeMenuDeleteAllChunksSlot(bool checked){
             return;
         }
         pLayerDraw->RemoveAllChunks(true);
+        this->m_pGLCore->UpdateWidgets();
+    }
+}
+
+void CLayerManagerWidget::itemTreeMenuShowResidualSlot(bool checked){
+    printf("itemTreeMenuShowResidualSlot:%d\n", checked);
+    QModelIndex curIndex = ui->m_pCtlTreeView->currentIndex();
+    if (curIndex.isValid()) {
+        QTreeWidgetItem* pItem = ui->m_pCtlTreeView->currentItem();
+        if(pItem == nullptr)
+            return;
+        CLayerGeoDraw* pLayerDraw = (CLayerGeoDraw*)(pItem->data(0, FLAG_IMTE_EXT_DATA).toULongLong());
+        if(!(pLayerDraw->m_nLayerType == ELAYERTYPE::e_shapePoint
+                || pLayerDraw->m_nLayerType == ELAYERTYPE::e_shapePolyline
+                || pLayerDraw->m_nLayerType == ELAYERTYPE::e_shapePolygon))
+        {
+            return;
+        }
+
+        COpenGLCore* pGLCore = GetGlobalPtr()->m_pGLCore;
+        CLayerVector* pLayerVector = pGLCore->m_pLayerVector;
+        CLayerResidual* pLayerResidual = nullptr;
+        std::string sLayerName;
+        int nResidualType = 0;
+
+        if(pLayerDraw->m_sLayerName.compare("Residual_LianJie_Points") == 0){
+            sLayerName = "Residual_LianJie_Points_show";
+            nResidualType = 1;
+        }else if(pLayerDraw->m_sLayerName.compare("Residual_Control_Points") == 0){
+            nResidualType = 2;
+            sLayerName = "Residual_Control_Points_show";
+        }else if(pLayerDraw->m_sLayerName.compare("Residual_Check_Points") == 0){
+            nResidualType = 3;
+            sLayerName = "Residual_Check_Points_show";
+        }
+        pLayerResidual = (CLayerResidual*)pLayerVector->FindLayerByName(sLayerName);
+        if(pLayerResidual){
+            pLayerResidual->ShowEnable(!pLayerResidual->m_nShowOrHide);
+            this->m_pGLCore->UpdateWidgets();
+            return;
+        }
+        pLayerResidual = (CLayerResidual*)pLayerVector->CreateEmptyGeoLayer(4);
+        pLayerResidual->m_sLayerName = sLayerName;
+        pLayerResidual->m_pExtData = pLayerDraw->m_pExtData;
+        pLayerResidual->InitChunksByResidualInfo(nResidualType);
+        pLayerDraw->m_pRelationLayer = pLayerResidual;
+        this->m_pGLCore->UpdateWidgets();
+    }
+}
+
+void CLayerManagerWidget::itemTreeMenuShowResidualWithoutArrowSlot(bool checked){
+    printf("itemTreeMenuShowResidualWithoutArrowSlot:%d\n", checked);
+    QModelIndex curIndex = ui->m_pCtlTreeView->currentIndex();
+    if (curIndex.isValid()) {
+        QTreeWidgetItem* pItem = ui->m_pCtlTreeView->currentItem();
+        if(pItem == nullptr)
+            return;
+        CLayerGeoDraw* pLayerDraw = (CLayerGeoDraw*)(pItem->data(0, FLAG_IMTE_EXT_DATA).toULongLong());
+        if(!(pLayerDraw->m_nLayerType == ELAYERTYPE::e_shapePoint
+                || pLayerDraw->m_nLayerType == ELAYERTYPE::e_shapePolyline
+                || pLayerDraw->m_nLayerType == ELAYERTYPE::e_shapePolygon))
+        {
+            return;
+        }
+
+        COpenGLCore* pGLCore = GetGlobalPtr()->m_pGLCore;
+        CLayerVector* pLayerVector = pGLCore->m_pLayerVector;
+        CLayerResidual* pLayerResidual = nullptr;
+        std::string sLayerName;
+
+        if(pLayerDraw->m_sLayerName.compare("Residual_LianJie_Points") == 0){
+            sLayerName = "Residual_LianJie_Points_show";
+        }else if(pLayerDraw->m_sLayerName.compare("Residual_Control_Points") == 0){
+            sLayerName = "Residual_Control_Points_show";
+        }else if(pLayerDraw->m_sLayerName.compare("Residual_Check_Points") == 0){
+            sLayerName = "Residual_Check_Points_show";
+        }else{
+            return;
+        }
+        pLayerResidual = (CLayerResidual*)pLayerVector->FindLayerByName(sLayerName);
+        if(pLayerResidual == nullptr){
+            return;
+        }
+        pLayerResidual->ShowArrow(!pLayerResidual->m_bShowArrow);
         this->m_pGLCore->UpdateWidgets();
     }
 }

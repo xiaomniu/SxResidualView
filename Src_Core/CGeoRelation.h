@@ -1,5 +1,5 @@
-﻿#ifndef SXGEORELATION_H
-#define SXGEORELATION_H
+﻿#ifndef CGEORELATION_H
+#define CGEORELATION_H
 
 #include "glm/glm.hpp"
 #include "glm/ext.hpp"

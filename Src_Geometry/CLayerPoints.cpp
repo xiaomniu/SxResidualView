@@ -292,3 +292,41 @@ void CLayerPoints::SetFresh(CChunk* pChunk){
     this->m_pHitChunk = pChunk;
     this->m_pGLCore->UpdateWidgets();
 }
+
+int CLayerPoints::ConvertSelectedChunksToOtherLayer(CLayerGeoDraw* pOtherLayer){
+    if(pOtherLayer->m_nLayerType != this->m_nLayerType || pOtherLayer->m_vecLayerFields.size() != this->m_vecLayerFields.size()){
+        return 0;
+    }
+    int nLeftDeleteCnt = (int)this->m_pVecEleChunksOperate->size();
+    if(nLeftDeleteCnt <= 0){
+        return 0;
+    }
+
+    int nNewChunkOid = 0;
+    int nOtherLayerChunkCount = (int)pOtherLayer->m_vecChunkDatas.size();
+    CChunk* pChunk = nullptr;
+    auto ittBegin = this->m_vecChunkDatas.begin();
+    int i = 0, nDeleteIndx = -1;
+    for(i = 0; i < nLeftDeleteCnt; i++) {
+        nDeleteIndx = this->m_pVecEleChunksOperate->at(i);
+        pChunk = this->m_vecChunkDatas[nDeleteIndx];
+        this->m_vecChunkDatas.erase(ittBegin + nDeleteIndx);
+
+        nNewChunkOid = nOtherLayerChunkCount++;
+        pChunk->m_pBelongLayer = pOtherLayer;
+        pChunk->m_vecAttributeValues[0].SetAttributeValue(-nNewChunkOid);
+        pOtherLayer->AddChunk(pChunk);
+        //delete pChunk;
+        //pChunk = nullptr;
+    }
+
+    this->m_pVecEleChunksOperate->clear();
+    this->m_nOperateEleCnt = 0;
+    this->MakeUpChunks();
+
+    pOtherLayer->m_pVecEleChunksOperate->clear();
+    pOtherLayer->m_nOperateEleCnt = 0;
+    pOtherLayer->MakeUpChunks();
+
+    return 1;
+}
